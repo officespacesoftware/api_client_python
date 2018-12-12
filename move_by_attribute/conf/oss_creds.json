@@ -1,0 +1,6 @@
+{
+    "domain": "example.officespacesoftware.com",
+    "api_key": "abc123",
+    "attribute_name": "Phone MAC",
+    "db_path": "tinydb/db.json"
+}
