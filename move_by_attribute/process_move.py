@@ -1,20 +1,28 @@
-import sys
 import datetime
 import requests
 import json
+import argparse
 from tinydb import TinyDB, Query
 from tinydb.storages import MemoryStorage
 from lib.oss_api_config import OfficeSpaceConf
 
 conf = OfficeSpaceConf('conf/oss_creds.json')
 
+arg_parser = argparse.ArgumentParser(description='Move a person by email and phone MAC address.', usage='milton@initech.com -in ABCDEF02 -out ABCDEF01')
+arg_parser.add_argument('email')
+arg_parser.add_argument('-in-MAC', '-in')
+arg_parser.add_argument('-out-MAC', '-out')
+args = arg_parser.parse_args()
+if not args.in_MAC and not args.out_MAC:
+    arg_parser.error('Either a login or logout MAC must be specified')
+
 db = TinyDB(conf.DB_PATH)
 table_seats = db.table('seats')
 table_macs_to_seats = db.table('macs_to_seats')
 
-EMPLOYEE_EMAIL = 'milton@initech.com'
-LOGIN_MAC = '000000000000'
-LOGOUT_MAC = '000000000001'
+EMPLOYEE_EMAIL = args.email
+LOGIN_MAC = args.in_MAC
+LOGOUT_MAC = args.out_MAC
 
 to_seat_id = 0
 if (len(table_macs_to_seats.search(Query().mac == LOGIN_MAC)) > 0):
