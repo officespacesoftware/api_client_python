@@ -23,5 +23,5 @@ class OfficeSpaceConf(object):
             self.URL_ATTRIBUTES = '/attributes'
             self.HEADERS = {
                 'Authorization': 'Token token=' + self.API_KEY,
-                'Content-Type': "application/json; charset=utf-8"
+                'Content-Type': 'application/json; charset=utf-8'
                 }
