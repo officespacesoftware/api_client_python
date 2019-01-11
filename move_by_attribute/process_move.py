@@ -25,12 +25,14 @@ LOGIN_MAC = args.in_MAC
 LOGOUT_MAC = args.out_MAC
 
 to_seat_id = 0
-if (len(table_macs_to_seats.search(Query().mac == LOGIN_MAC)) > 0):
-    to_seat_id = table_macs_to_seats.search(Query().mac == LOGIN_MAC)[0]['seat']
+if LOGIN_MAC:
+	if (len(table_macs_to_seats.search(Query().mac == LOGIN_MAC)) > 0):
+	    to_seat_id = table_macs_to_seats.search(Query().mac == LOGIN_MAC)[0]['seat']
 
 from_seat_id = 0
-if (len(table_macs_to_seats.search(Query().mac == LOGOUT_MAC)) > 0):
-    from_seat_id = table_macs_to_seats.search(Query().mac == LOGOUT_MAC)[0]['seat']
+if LOGOUT_MAC:
+	if (len(table_macs_to_seats.search(Query().mac == LOGOUT_MAC)) > 0):
+	    from_seat_id = table_macs_to_seats.search(Query().mac == LOGOUT_MAC)[0]['seat']
 
 move_body = {'employee_id': EMPLOYEE_EMAIL.split('@', 1)[0],
              'move_time': str(datetime.datetime.now().replace(microsecond=0)),
