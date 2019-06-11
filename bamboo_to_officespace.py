@@ -11,7 +11,7 @@ import sys
 Site = "<YOUR_BAMBOO_INSTANCE>"
 Key = "<YOUR_BAMBOO_API_KEY>"
 Auth = (Key, 'x')
-Headers = {"Accept": "application/json"}
+BambooHeaders = {"Accept": "application/json"}
 BaseUrl = "https://api.bamboohr.com/api/gateway.php/%s/v1/" % (Site)
 EmployeeDirectory = "employees/directory"
 
@@ -33,7 +33,7 @@ EmployeeImportUrl  = Protocol + Hostname + ImportUrl
 BatchSize = 1000
 ##########################
 
-Response = requests.get(BaseUrl + EmployeeDirectory, auth=Auth, headers=Headers)
+Response = requests.get(BaseUrl + EmployeeDirectory, auth=Auth, headers=BambooHeaders)
 
 if Response.status_code == 200:
     Data = json.loads(Response.text)
