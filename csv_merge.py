@@ -2,6 +2,7 @@ import pandas as pd
 import logging
 import calendar
 import time
+import inquirer
 
 # IMPORTANT NOTE #
 #  If you want to use this file, you need to have the files "Directory file.csv"
@@ -30,7 +31,7 @@ logging.basicConfig(filename=f"logs_{ts}.txt",
                     datefmt='%H:%M:%S',
                     level=logging.DEBUG)
 
-logging.info("Running Scotiabank Draft")
+logging.info("Running CSV Merge")
 
 # Checking for errors
 
@@ -58,6 +59,25 @@ if len(invalid_ids_on_manually) > 0:
     logging.warning(list(invalid_ids_on_manually))
 
 if not any_fatal_error:
+    # Checking columns that user wants to update
+
+    columns_in_manual_file = list(manually_file.columns)[1::]
+
+    questions = [inquirer.Checkbox(
+        'columns',
+        message="Select with an X the columns that you "
+                "dont want to update using arrows and SPACE key."
+                " Then press ENTER",
+
+        choices=columns_in_manual_file,
+    )]
+
+    answers = inquirer.prompt(questions)
+    columns_after_user_choise = answers['columns']
+
+    for column_name in columns_after_user_choise:
+        manually_file.drop(column_name, axis=1, inplace=True)
+
     # Updating the file
     directory_file.set_index('ID', inplace=True)
     manually_file.set_index('ID', inplace=True)
@@ -66,4 +86,5 @@ if not any_fatal_error:
 
     directory_file.to_csv("result.csv", index=False)
 
-logging.info("Closing Scotiabank Draft")
+logging.info("Closing CSV Merge")
+print("Closing CSV Merge")
